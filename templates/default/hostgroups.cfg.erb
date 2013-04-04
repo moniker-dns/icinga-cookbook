@@ -7,10 +7,12 @@ define hostgroup {
   members *
 }
 
-<% @roles.each do |r| -%>
+<% @monitored_nodes.each do |hgname, members| -%>
+  <% if members.count > 0 -%>
 define hostgroup {
-  hostgroup_name <%= r %>
-  alias <%= r %>
+  hostgroup_name <%= hgname %>
+  alias <%= hgname %>
+  members <%=members.collect {|x| x['hostname'] }.join(',') %>
 }
-
+  <% end -%>
 <% end -%>

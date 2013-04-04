@@ -1,0 +1,231 @@
+{
+  "id": "icinga",
+  "commands_comment": "Used to build up commands.cfg, the file containing those not defined in /usr/lib/nagios-plugins",
+  "commands": {
+    "check_fping": {
+      "command_name": "check_fping",
+      "command_line": "/usr/lib/nagios/plugins/check_fping -n 1 -r 1 -t 500 -i 100 -H $HOSTADDRESS$"
+    },
+    "check_memory": {
+      "command_name": "check_memory",
+      "command_line": "$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_memory -t 20"
+    },
+    "check_chef_client_log_age": {
+      "command_name": "check_chef_client_log_age",
+      "command_line": "$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_chef_client_log_age"
+    },
+    "check_mysql_exists": {
+      "command_name": "check_mysql_exists",
+      "command_line": "$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_mysql_exists"
+    },
+    "check_mysql_innodb": {
+      "command_name": "check_mysql_innodb",
+      "command_line": "$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_mysql_innodb"
+    },
+    "check_mysql_connections": {
+      "command_name": "check_mysql_connections",
+      "command_line": "$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_mysql_connections"
+    },
+    "check_mysql_cluster": {
+      "command_name": "check_mysql_cluster",
+      "command_line": "$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_mysql_cluster"
+    },
+    "check_pdns": {
+      "command_name": "check_pdns",
+      "command_line": "$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_pdns"
+    },
+    "check_http_port_expect": {
+      "command_name": "check_http_port_expect",
+      "command_line": "$USER1$/check_http -H '$HOSTADDRESS$' -p '$ARG1$'  -e '$ARG2$'"
+    } 
+  },
+  "services_comment": "used to generate the services.cfg file",
+  "services": {
+    "check_ping": {
+      "enabled": 1,
+      "service_description": "ping",
+      "use": "default-service",
+      "hostgroups": ["all"],
+      "check_command": "check_ping!200.0,20%!500.0,60%"
+    },
+    "check_chef_client": {
+      "enabled": 0,
+      "service_description": "Chef Client",
+      "use": "default-service",
+      "hostgroups": ["all"],
+      "check_command": "check_chef_client"
+    },
+    "disk": {
+      "enabled": 1,
+      "service_description": "DISK SPACE FREE",
+      "use": "default-service",
+      "hostgroups": ["all"],
+      "check_command": "check_nrpe_1arg!disk"
+    },
+    "check_load": {
+      "enabled": 1,
+      "service_description": "Load Average",
+      "use": "default-service",
+      "hostgroups": ["all"],
+      "check_command": "check_nrpe_1arg!load"
+    },
+    "check_memory": {
+      "enabled": 1,
+      "service_description": "Free Memory",
+      "use": "default-service",
+      "hostgroups": ["all"],
+      "check_command": "check_nrpe_1arg!check_memory"
+    },
+    "check_chef_client_log_age": {
+      "enabled": 1,
+      "service_description": "Chef Client Log Age",
+      "use": "default-service",
+      "hostgroups": ["all"],
+      "check_command": "check_nrpe_1arg!check_chef_client_log_age"
+    },
+    "check_ssh": {
+      "enabled": 1,
+      "service_description": "SSH",
+      "use": "default-service",
+      "hostgroups": ["all"],
+      "check_command": "check_ssh"
+    },
+    "check_dns": {
+      "enabled": 1,
+      "service_description": "DNS",
+      "use": "default-service",
+      "hostgroups": ["powerdns"],
+      "check_command": "check_pdns"
+    },
+    "check_rabbitmq": {
+      "enabled": 1,
+      "service_description": "Rabbit MQ",
+      "use": "default-service",
+      "hostgroups": ["rabbitmq"],
+      "service_groups": ["rabbitmq"],
+      "check_command": "check_nrpe_1arg!check_rabbitmq"
+    },
+    "check_monikercentral_proc": {
+      "enabled": 1,
+      "service_description": "Moniker Central Service",
+      "use": "default-service",
+      "hostgroups": ["monikercentral"],
+      "service_groups": ["monikercentral"],
+      "check_command": "check_nrpe_1arg!check_monikercentral_proc"
+    },
+    "check_monikerapi": {
+      "enabled": 1,
+      "service_description": "Moniker API Service",
+      "use": "default-service",
+      "hostgroups": ["monikerapi"],
+      "service_groups": ["monikerapi"],
+      "check_command": "check_nrpe_1arg!check_monikerapi"
+    }
+  },
+  "nrpe_checks_comment": "used to generate config files for checks on client for the nrpe server to use to translate nrpe check name to command run on local system",
+  "nrpe_checks": {
+    "check_disk": {
+      "command": "/usr/lib/nagios/plugins/check_disk",
+      "args": "-w 15% -c 5% -p / -p /mnt"
+    },
+    "check_load": { 
+      "command": "/usr/lib/nagios/plugins/check_load",
+      "args": "-r -w 2.0,1.5,1.0 -c 10,5,4"
+    },
+    "check_swap": {
+      "command": "/usr/lib/nagios/plugins/check_swap",
+      "args": "-w 50% -c 10%"
+    },
+    "check_memory": {
+      "command": "/usr/lib/nagios/plugins/check_memory.pl",
+      "args": "-w 5% -c 1%"
+    },
+    "check_chef_client": {
+      "command": "/usr/lib/nagios/plugins/check_procs",
+      "args": "-w 1:2 -c 1:2 -C chef-client"
+    },
+    "check_carbon_cache": {
+      "command": "/usr/lib/nagios/plugins/check_procs",
+      "args": "-w 1:2 -c 1:2 -C 'carbon-cache.py'"
+    },
+    "check_smtp": {
+      "command": "/usr/lib/nagios/plugins/check_smtp",
+      "args": "-H <smtp_host>"
+    },
+    "check_nginx": {
+      "command": "/usr/lib/nagios/plugins/check_procs",
+      "args": "-w 2:3 -c 1:5 -C nginx"
+    },
+    "check_sphinx": {
+      "command": "/usr/lib/nagios/plugins/check_procs",
+      "args": "-c 1:1 -C searchd"
+    },
+    "check_memcached_response": {
+      "command": "/usr/local/bin/check_memcached",
+      "args": "-H localhost -w 3 -c 5"
+    },
+    "check_memcached_size": {
+      "command": "/usr/local/bin/check_memcached",
+      "args": "-H localhost --size-warning 60 --size-critical 80"
+    },
+    "check_memcached_hit": {
+      "command": "/usr/local/bin/check_memcached",
+      "args": "-H localhost --hit-warning 40 --hit-critical 20"
+    },
+    "check_chef_client_log_age": {
+      "command": "/usr/lib/nagios/plugins/check_file_age",
+      "args": "-w 600 -c 1800 /var/log/chef/client.log"
+    },
+    "check_total_procs": {
+      "command": "/usr/lib/nagios/plugins/check_procs",
+      "args": "-w 500 -c 800"
+    },
+    "check_unicorn": {
+      "command": "/usr/lib/nagios/plugins/check_procs",
+      "args": "-c 4:8  -C unicorn_rails"
+    },
+    "check_zombie_procs": {
+      "command": "/usr/lib/nagios/plugins/check_zombie_procs",
+      "args": "-w 5 -c 10 -s Z"
+    },
+    "check_mysql_exists": {
+      "command": "/usr/lib/nagios/plugins/check_procs",
+      "args": "-C mysqld -c 1:1"
+    },
+    "check_ntp_time": {
+      "command": "/usr/lib/nagios/plugins/check_ntp_time",
+      "args": "-H us.pool.ntp.org -w 0.5 -c 1"
+    },
+    "check_monikercentral_proc": {
+      "command": "/usr/lib/nagios/plugins/check_procs",
+      "args": "-C moniker-central -c 1:1"
+    },
+    "check_mysql_innodb": {
+      "command": "/usr/lib64/nagios/plugins/pmp-check-mysql-innodb"
+    },
+    "check_mysql_connections": {
+      "command": "/usr/lib64/nagios/plugins/pmp-check-mysql-processlist",
+      "args": "-w 50 -c 100"
+    },
+    "check_mysql_cluster": {
+      "command": "/usr/lib64/nagios/plugins/pmp-check-mysql-status",
+      "args": "-x wsrep_cluster_size -w 2 -c 2 -C '<='"
+    },
+    "check_monikerapi": {
+      "command": "/usr/lib/nagios/plugins/check_http",
+      "args": "-H localhost -p 9001"
+    },
+    "check_rabbitmq": {
+      "command": "/usr/lib/nagios/plugins/check_rabbitmq",
+      "args": "-a connection_count -C 0 -W 4"
+    },
+    "check_pdns": {
+      "command": "/usr/lib/nagios/plugins/check_dns",
+      "args": "-s localhost icinga-test123.com -A"
+    },
+    "check_users": {
+      "command": "/usr/lib/nagios/plugins/check_users",
+      "args": "-w 20 -c 30"
+   }
+  }
+}

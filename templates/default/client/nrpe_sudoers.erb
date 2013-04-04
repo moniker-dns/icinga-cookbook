@@ -1,0 +1,3 @@
+<% @nrpe_checks.each do |check,params| -%>
+nagios ALL=(ALL) NOPASSWD: <%= params['command'] %> 
+<% end %>

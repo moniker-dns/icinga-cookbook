@@ -1,6 +1,33 @@
 default['icinga']['version']  = "1.8.4"
+default['icinga']['use_the_force_luke'] = true 
 default['icinga']['checksum'] = "e1ecbc6c83bb8b2d4d29934182b101f305c8d45873b0cefe452dd913ee5b6de1"
-default['icinga']['prefix']   = "/usr/local/icinga"
+
+if (node['icinga']['use_the_force_luke'].eql?(true))
+  default['icinga']['prefix'] = "/usr/local/icinga"
+  # TODO: verify
+  default['icinga']['icinga_bin'] = "/usr/local/sbin/icinga"
+  set['icinga']['conf_dir']   = node['icinga']['prefix'] + "/etc"
+  set['icinga']['config_dir'] = node['icinga']['conf_dir'] + "/conf.d"
+  set['icinga']['log_dir']    = node['icinga']['prefix'] + "/var"
+  set['icinga']['docroot']    = node['icinga']['prefix'] + "/share/"
+  set['icinga']['cache_dir']  = node['icinga']['log_dir']
+  set['icinga']['state_dir']  = node['icinga']['log_dir']
+  set['icinga']['run_dir']    = node['icinga']['log_dir']
+else
+  default['icinga']['prefix']     =  "/var/lib/icinga"
+  default['icinga']['icinga_bin'] = "/usr/sbin/icinga"
+  set['icinga']['conf_dir']       = "/etc"
+  set['icinga']['config_dir']     = node['icinga']['conf_dir'] + "/conf.d"
+  set['icinga']['log_dir']        = "/var/log/icinga"
+  set['icinga']['pid_file']       = "/var/run/icinga.pid"
+  set['icinga']['cache_dir']      = "/var/cache/icinga"
+  set['icinga']['state_dir']      = "/var/lib/icinga"
+  set['icinga']['docroot']        = "/usr/share/icinga/htdocs"
+end
+set['icinga']['config_dir'] = node['icinga']['conf_dir'] + "/objects"
+set['icinga']['run_dir']    = node['icinga']['log_dir']
+# apache is package install regardless of icinga install 
+set['icinga']['cgi_bin']    = "/usr/lib/cgi-bin/icinga"
 
 default['icinga']['sysadmin_email']     = "root@localhost"
 default['icinga']['sysadmin_sms_email'] = "root@localhost"
@@ -8,19 +35,12 @@ default['icinga']['sysadmin_sms_email'] = "root@localhost"
 default['icinga']['user']  = "nagios"
 default['icinga']['group'] = "nagios"
 
-default['icinga']['server_role']             = "monitoring"
+default['icinga']['server_role']             = "icinga"
 default['icinga']['sysadmin']                = "sysadmin"
 default['icinga']['notifications_enabled']   = 0
 default['icinga']['check_external_commands'] = true
 default['icinga']['default_contact_groups']  = %w(admins)
 
-set['icinga']['conf_dir']   = node['icinga']['prefix'] + "/etc"
-set['icinga']['config_dir'] = node['icinga']['conf_dir'] + "/conf.d"
-set['icinga']['log_dir']    = node['icinga']['prefix'] + "/var"
-set['icinga']['cache_dir']  = node['icinga']['log_dir']
-set['icinga']['state_dir']  = node['icinga']['log_dir']
-set['icinga']['run_dir']    = node['icinga']['log_dir']
-set['icinga']['docroot']    = node['icinga']['prefix'] + "/share/"
 
 # This setting is effectively sets the minimum interval (in seconds) icinga can handle.
 # Other interval settings provided in seconds will calculate their actual from this value, since icinga works in 'time units' rather than allowing definitions everywhere in seconds

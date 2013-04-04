@@ -1,0 +1,8 @@
+{
+  "id": "users",
+  "groups": "sysadmin",
+  "htpasswd": "hashed_htpassword",
+  "icinga": {
+    "icinga_email": "icinga@example.com"
+  }
+}

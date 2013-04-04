@@ -69,7 +69,13 @@ directory "#{node['icinga']['config_dir']}" do
   mode "0755"
 end
 
-%w{ icinga cgi resource }.each do |conf|
+%w{ icinga cgi }.each do |conf|
+  icinga_conf conf do
+    template_subdir 'source'
+    config_subdir false
+  end
+end
+%w{ resource }.each do |conf|
   icinga_conf conf do
     config_subdir false
   end

@@ -33,7 +33,7 @@ else
 end
 
 # Gather the list of sysadmins
-sysadmins = search2(:users, node[:icinga][:sysadmin_search], node[:icinga][:sysadmins]) do |user|
+sysadmins = search_helper(:users, node[:icinga][:sysadmin_search], node[:icinga][:sysadmins]) do |user|
   "#{user['id']}"
 end
 
@@ -46,7 +46,7 @@ if Chef::Config[:solo]
   nodes = Array.new
   nodes << node
 else
-  nodes = search_best_ip(node[:icinga][:node_search], nil) do |ip, other_node|
+  nodes = search_helper_best_ip(node[:icinga][:node_search], nil) do |ip, other_node|
     # Add server_ip to nodes, which is the cross-az IP to use
     # Does this get persisted???? We probably need to change this
     other_node.set[:server_ip] = ip

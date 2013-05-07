@@ -138,7 +138,11 @@ icinga_group=<%= node['icinga']['group'] %>
 # you will have to enable this.
 # Values: 0 = disable commands, 1 = enable commands
 
-check_external_commands=<%= node['icinga']['check_external_commands'] %>
+<% if node['icinga']['check_external_commands'] %>
+check_external_commands=1
+<% else %>
+check_external_commands=0
+<% end %>
 
 # EXTERNAL COMMAND CHECK INTERVAL
 # This is the interval at which Icinga should check for external commands.

@@ -37,6 +37,7 @@ Vagrant.configure("2") do |config|
     chef.data_bags_path  = "data_bags"
 
     # Set the chef run-list
+    chef.add_recipe("apt")
     chef.add_recipe("icinga")
     chef.add_recipe("minitest-handler") if ENV['VAGRANT_TEST']
 

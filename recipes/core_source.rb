@@ -85,3 +85,18 @@ end
   icinga_conf conf
 end
 
+
+public_domain = node['domain']
+
+if node['public_domain']
+  public_domain = node['public_domain']
+end
+
+template "#{node['icinga']['conf_dir']}/apache2.conf" do
+  source "source/apache2.conf.erb"
+  mode 0644
+  variables :public_domain => public_domain
+  if ::File.symlink?("#{node['apache']['dir']}/conf.d/icinga.conf")
+    notifies :reload, "service[apache2]"
+  end
+end

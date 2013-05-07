@@ -14,7 +14,11 @@ status_file=<%= node['icinga']['log_dir'] %>/status.dat
 status_update_interval=10
 icinga_user=<%= node['icinga']['user'] %>
 icinga_group=<%= node['icinga']['group'] %>
+<% if node['icinga']['check_external_commands'] %>
 check_external_commands=1
+<% else %>
+check_external_commands=0
+<% end %>
 command_check_interval=-1
 command_file=<%= node['icinga']['state_dir'] %>/rw/icinga.cmd
 external_command_buffer_slots=4096

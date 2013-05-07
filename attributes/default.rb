@@ -16,7 +16,7 @@ if (node['icinga']['source_install'].eql?(true))
 else
   default['icinga']['prefix']     =  "/var/lib/icinga"
   default['icinga']['icinga_bin'] = "/usr/sbin/icinga"
-  set['icinga']['conf_dir']       = "/etc"
+  set['icinga']['conf_dir']       = "/etc/icinga"
   set['icinga']['config_dir']     = node['icinga']['conf_dir'] + "/conf.d"
   set['icinga']['log_dir']        = "/var/log/icinga"
   set['icinga']['pid_file']       = "/var/run/icinga.pid"
@@ -28,6 +28,8 @@ set['icinga']['config_dir'] = node['icinga']['conf_dir'] + "/objects"
 set['icinga']['run_dir']    = node['icinga']['log_dir']
 # apache is package install regardless of icinga install 
 set['icinga']['cgi_bin']    = "/usr/lib/cgi-bin/icinga"
+
+default['icinga']['node_search'] = "hostname:[* TO *] AND chef_environment:#{node.chef_environment}"
 
 default['icinga']['sysadmin_search'] = "groups:#{node['icinga']['sysadmin']} AND email:* AND htpasswd:*"
 default['icinga']['sysadmins'] = nil
@@ -42,7 +44,9 @@ default['icinga']['server_role']             = "icinga"
 default['icinga']['sysadmin']                = "sysadmin"
 default['icinga']['notifications_enabled']   = 0
 default['icinga']['check_external_commands'] = true
+default['icinga']['external_command_buffer_slots'] = 32768
 default['icinga']['default_contact_groups']  = %w(admins)
+default['icinga']['log_rotation_method'] = 'd'
 
 
 # This setting is effectively sets the minimum interval (in seconds) icinga can handle.

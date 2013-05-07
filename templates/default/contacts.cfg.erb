@@ -13,20 +13,18 @@ define contact {
 define contactgroup {
   contactgroup_name admins
   alias             Icinga Administrators
-  members           <%= @members.join(',') %>
+  members           <%= @sysadmins.join(',') %>
 }
 
 define contactgroup {
   contactgroup_name admins-sms
   alias             Sysadmin SMS
-  members           <%= @members.join(',') %>
+  members           <%= @sysadmins.join(',') %>
 }
 
-<% @admins.each do |a| -%>
+<% @sysadmins.each do |sysadmin| -%>
 define contact {
   use          default-contact
-  contact_name <%= a['id'] %>
-  email        <%= a['icinga']['email'] %>
+  contact_name <%= sysadmin %>
 }
-
-<% end -%>
+<% end %>

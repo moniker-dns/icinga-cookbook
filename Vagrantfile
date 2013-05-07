@@ -41,6 +41,10 @@ Vagrant.configure("2") do |config|
     chef.add_recipe("minitest-handler") if ENV['VAGRANT_TEST']
 
     # Provide some chef attributes
-    chef.json = {}
+    chef.json = {
+      :icinga => {
+        :sysadmins => ['admin']
+      }
+    }
   end
 end

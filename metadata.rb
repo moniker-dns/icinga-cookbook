@@ -6,7 +6,7 @@ description      "Installs/Configures Icinga"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.2.0"
 
-%w{ apache2 build-essential }.each do |cb|
+%w{ apache2 build-essential search_helper}.each do |cb|
     depends cb
 end
 

@@ -29,6 +29,9 @@ set['icinga']['run_dir']    = node['icinga']['log_dir']
 # apache is package install regardless of icinga install 
 set['icinga']['cgi_bin']    = "/usr/lib/cgi-bin/icinga"
 
+default['icinga']['sysadmin_search'] = "groups:#{node['icinga']['sysadmin']} AND email:* AND htpasswd:*"
+default['icinga']['sysadmins'] = nil
+
 default['icinga']['sysadmin_email']     = "root@localhost"
 default['icinga']['sysadmin_sms_email'] = "root@localhost"
 

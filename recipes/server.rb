@@ -32,7 +32,10 @@ else
   include_recipe "icinga::package_install"
 end
 
-sysadmins = search(:users, "groups:#{node['icinga']['sysadmin']} AND email:* AND htpasswd:*")
+sysadmins = search2(:users, node[:icinga][:sysadmin_search], node[:icinga][:sysadmins]) do |user|
+  "#{user['id']}"
+end
+
 nodes = search(:node, "hostname:[* TO *] AND chef_environment:#{node.chef_environment}")
 
 # icinga box may be the first up, so nothing exists in Chef's eyes, give us something
@@ -43,14 +46,10 @@ if nodes.empty?
   nodes << node
 end
 
-members = Array.new
-sysadmins.each do |s|
-  members << s['id']
+if node.expand!.recipes.include?('icinga::pagerduty')
+  sysadmins << 'pagerduty'
 end
 
-if node.expand!.recipes.include?('icinga::pagerduty')
-  members << 'pagerduty'
-end
 # icinga box may be the first up, so nothing exists in Chef's eyes, give us something
 # to work with
 if nodes.empty?
@@ -66,16 +65,6 @@ end
 if nodes.count {|n| n['hostname'] == node['hostname'] } < 1
   Chef::Log.info("couldn't find oursleves in the list of nodes, so adding ourselves #{node['hostname']}")
   nodes << node
-end
-
-members = Array.new       # contact group members
-sysadmins.each do |s|
-  members << s['id']
-end
-
-if node.expand!.recipes.include?('icinga::pagerduty')
-  # cludge..
-  members << 'pagerduty'
 end
 
 if node['public_domain']
@@ -180,9 +169,8 @@ icinga_conf "servicegroups" do
   variables :servicegroups => monitored_nodes
 end
 
-
 icinga_conf "contacts" do
-  variables :admins => sysadmins, :members => members
+  variables :sysadmins => sysadmins
 end
 
 icinga_conf "hostgroups" do

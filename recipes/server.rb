@@ -26,7 +26,7 @@ include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_rewrite"
 include_recipe "icinga::plugins_package"
 
-if (node['icinga'].has_key('use_the_source_luke']) and node['icinga']['use_the_source_luke'] == true) 
+if node['icinga']['source_install'] == true
   include_recipe "icinga::core_source"
 else
   include_recipe "icinga::package_install"

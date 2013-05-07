@@ -1,8 +1,8 @@
 default['icinga']['version']  = "1.8.4"
-default['icinga']['use_the_force_luke'] = true 
+default['icinga']['source_install'] = false 
 default['icinga']['checksum'] = "e1ecbc6c83bb8b2d4d29934182b101f305c8d45873b0cefe452dd913ee5b6de1"
 
-if (node['icinga']['use_the_force_luke'].eql?(true))
+if (node['icinga']['source_install'].eql?(true))
   default['icinga']['prefix'] = "/usr/local/icinga"
   # TODO: verify
   default['icinga']['icinga_bin'] = "/usr/local/sbin/icinga"

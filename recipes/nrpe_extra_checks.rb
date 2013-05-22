@@ -18,8 +18,8 @@ cookbook_file "/usr/lib/nagios/plugins/check_rabbitmq" do
 end
 
 # Install default file, increasing the init.d script timeout
-cookbook_file "/usr/lib/nagios/plugins/check_rabbitmq_queue_length do
+cookbook_file "/usr/lib/nagios/plugins/check_rabbitmq_queue_length" do
   source    "plugins/check_rabbitmq_queue_length"
-  mod      0755
+  mode      0755
   action    :create
 end

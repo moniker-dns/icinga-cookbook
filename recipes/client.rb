@@ -28,7 +28,7 @@
 #
 
 include_recipe "icinga::plugins_package"
-include_recipe "icinga:nrpe_extra_checks"
+include_recipe "icinga::nrpe_extra_checks"
 
 # Config files for the check_logfile plugin live here
 Chef::Log.warn("create logfile dir")

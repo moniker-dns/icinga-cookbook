@@ -30,6 +30,7 @@ set['icinga']['run_dir']    = node['icinga']['log_dir']
 set['icinga']['cgi_bin']    = "/usr/lib/cgi-bin/icinga"
 
 default['icinga']['node_search'] = "hostname:[* TO *] AND chef_environment:#{node.chef_environment}"
+default['icinga']['servers'] = []
 
 default['icinga']['sysadmin_search'] = "groups:#{node['icinga']['sysadmin']} AND email:* AND htpasswd:*"
 default['icinga']['sysadmins'] = nil

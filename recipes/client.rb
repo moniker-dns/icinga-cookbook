@@ -48,17 +48,24 @@ end
 
 # get a list of servers
 Chef::Log.debug("server_list")
-icinga_servers = search(:node, "role:icinga AND chef_environment:#{node.chef_environment}") || []
-Chef::Log.debug(icinga_servers)
+if Chef::Config[:solo]
+  Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
+  icinga_servers = node.default.icinga.servers
+  Chef::Log.debug(node.default.icinga.servers)
+else
+  icinga_servers = search(:node, "role:icinga AND chef_environment:#{node.chef_environment}") || []
+  Chef::Log.debug(icinga_servers)
 
-# just the IP address
-icinga_servers.map! do |server|
-  if server.has_key?('meta_data') && server['meta_data'].has_key('public_ipv4')
-    [server['meta_data']['public_ipv4'], server['meta_data']['private_ipv4']]
-  else
-    server['ipaddress']
+  # just the IP address
+  icinga_servers.map! do |server|
+    if server.has_key?('meta_data') && server['meta_data'].has_key('public_ipv4')
+      [server['meta_data']['public_ipv4'], server['meta_data']['private_ipv4']]
+    else
+      server['ipaddress']
+    end
   end
 end
+
 icinga_server_list = icinga_servers.join(',')
 
 Chef::Log.debug("sudoers config for priviledged commands")

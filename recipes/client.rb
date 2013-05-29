@@ -93,18 +93,10 @@ end
 # build the client side NRPE config fragments from the databag
 icinga_conf['nrpe_checks'].each do |check,nrpe_param|
   if nrpe_param.has_key?('command')
-    command = nrpe_param['command'] 
-    args = nrpe_param['args'] 
-    template "/etc/nagios/nrpe.d/#{check}.cfg" do
-      source "client/nrpe-servicecheck.cfg.erb"
-      mode 0644
-      owner "root"
-      group "root"
-      variables(
-        :check   => check,
-        :command => command,
-        :args    => args ) 
-      notifies :restart, "service[nagios-nrpe-server]"
+    icinga_command "Add command #{check}" do
+      check     check
+      command   nrpe_param['command']
+      args      nrpe_param['args']
     end
   end
 end

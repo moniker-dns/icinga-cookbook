@@ -14,6 +14,5 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# Server Configuration
-default[:icinga][:server][:interval_length] = 30
-default[:icinga][:server][:check_external_commands] = 1
+# Client Configuration
+default[:icinga][:client][:dont_blame_nrpe] = 1

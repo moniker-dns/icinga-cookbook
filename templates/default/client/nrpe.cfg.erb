@@ -90,7 +90,7 @@ allowed_hosts=<%= @icinga_servers.join(',') %>
 #
 # Values: 0=do not allow arguments, 1=allow command arguments
 
-dont_blame_nrpe=0
+dont_blame_nrpe=<%= node[:icinga][:client][:dont_blame_nrpe] %>
 
 
 
@@ -211,6 +211,6 @@ connection_timeout=300
 #command[check_disk]=/usr/lib/nagios/plugins/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
 #command[check_procs]=/usr/lib/nagios/plugins/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
 
-<% @nrpe_commands.sort.each do |command| %>
+<% @nrpe_commands.each do |command| %>
 command[<%= command['command_name'] %>]=<%= command['command_line'] %>
 <% end %>

@@ -26,12 +26,12 @@
 		"contact_groups": "admins",
 		"register": "0"
 	}, {
-		"service_description": "ping",
+		"service_description": "Ping",
 		"use": "generic-service",
 		"host_name": "*",
 		"check_command": "check_ping!200.0,20%!500.0,60%"
 	}, {
-		"service_description": "ssh",
+		"service_description": "SSH",
 		"use": "generic-service",
 		"host_name": "*",
 		"check_command": "check_ssh"
@@ -39,7 +39,31 @@
 		"service_description": "Disk Space",
 		"use": "generic-service",
 		"host_name": "*",
-		"check_command": "check_nrpe_1arg!check_disk",
+		"check_command": "check_nrpe!check_disk!15% 10%",
+		"servicegroups": ["nrpe"]
+	}, {
+		"service_description": "Load Average",
+		"use": "generic-service",
+		"host_name": "*",
+		"check_command": "check_nrpe!check_load!2,1.5,1.1 2.0,2.0,2.0",
+		"servicegroups": ["nrpe"]
+	}, {
+		"service_description": "Mail Queue",
+		"use": "generic-service",
+		"host_name": "*",
+		"check_command": "check_nrpe!check_mailq!100 200",
+		"servicegroups": ["nrpe"]
+	}, {
+		"service_description": "DNS",
+		"use": "generic-service",
+		"host_name": "*",
+		"check_command": "check_nrpe!check_dns!1 2 hp.com",
+		"servicegroups": ["nrpe"]
+	}, {
+		"service_description": "NTP Offset",
+		"use": "generic-service",
+		"host_name": "*",
+		"check_command": "check_nrpe!check_ntp_time!0.5 2 pool.ntp.org",
 		"servicegroups": ["nrpe"]
 	}]
 }

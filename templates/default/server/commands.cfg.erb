@@ -52,4 +52,14 @@ define command{
 	command_line	/usr/bin/printf "%b" "$LASTSERVICECHECK$\t$HOSTNAME$\t$SERVICEDESC$\t$SERVICESTATE$\t$SERVICEATTEMPT$\t$SERVICESTATETYPE$\t$SERVICEEXECUTIONTIME$\t$SERVICELATENCY$\t$SERVICEOUTPUT$\t$SERVICEPERFDATA$\n" >> /var/lib/icinga/service-perfdata.out
 	}
 
-
+<% @commands.each do |command| %>
+define command {
+    <% command.sort.each do |key, value| %>
+        <% if value.kind_of?(Array) %>
+        <%= key.ljust(30) %> <%= value.join(',') %>
+        <% else %>
+        <%= key.ljust(30) %> <%= value %>
+        <% end %>
+    <% end %>
+}
+<% end %>

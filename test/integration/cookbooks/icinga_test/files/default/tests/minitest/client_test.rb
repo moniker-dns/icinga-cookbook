@@ -12,7 +12,7 @@ describe 'icinga::client' do
     service("nagios-nrpe-server").must_be_enabled
   end
 
-  it 'starts the nagios-nrpe-server service' do
-    service("nagios-nrpe-server").must_be_running
-  end
+  # it 'starts the nagios-nrpe-server service' do
+  #   service("nagios-nrpe-server").must_be_running
+  # end
 end

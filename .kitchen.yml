@@ -16,11 +16,13 @@ platforms:
     icinga:
       server_hosts:
         - 127.0.0.1
+        - 10.0.2.15
 
 suites:
 - name: server
   run_list:
     - recipe[icinga_test::server]
+    - recipe[icinga_test::client]
 
 - name: client
   run_list: 

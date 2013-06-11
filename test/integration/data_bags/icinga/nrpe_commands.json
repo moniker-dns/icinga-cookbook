@@ -1,0 +1,8 @@
+{
+    "id": "nrpe_commands",
+
+    "nrpe_commands": [{
+    	"command_name": "check_disk",
+    	"command_line": "/usr/lib/nagios/plugins/check_disk -w 15% -c 10% -A -i '^/run'"
+	}]
+}

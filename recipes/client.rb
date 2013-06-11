@@ -25,3 +25,34 @@ end
 icinga_servers = search_helper_best_ip(node[:icinga][:server_search], node[:icinga][:server_hosts]) do |ip, other_node|
   ip
 end
+
+# Find all the service/host definitions 
+nrpe_commands_db = data_bag_item('icinga', 'nrpe_commands')
+
+nrpe_commands = nrpe_commands_db['nrpe_commands']
+
+template "/etc/nagios/nrpe.cfg" do
+  source     "client/nrpe.cfg.erb"
+  owner      "root"
+  group      "root"
+  mode       0644
+
+  variables(
+    :icinga_servers => icinga_servers,
+    :nrpe_commands  => nrpe_commands
+  )
+
+  notifies   :restart, "service[nagios-nrpe-server]"
+end
+
+file "/etc/nagios/nrpe_local.cfg" do
+  action    :delete
+  notifies  :restart, "service[nagios-nrpe-server]"
+end
+
+
+# Define/Enable/Start the NRPE service 
+service "nagios-nrpe-server" do
+  supports    :restart => true, :status => false, :reload => false
+  action      [:enable, :start]
+end

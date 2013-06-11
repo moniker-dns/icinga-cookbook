@@ -18,7 +18,7 @@
 		"notification_interval": "0",
 		"is_volatile": "0",
 		"check_period": "24x7",
-		"normal_check_interval": "5",
+		"normal_check_interval": "2",
 		"retry_check_interval": "1",
 		"max_check_attempts": "4",
 		"notification_period": "24x7",
@@ -29,13 +29,17 @@
 		"service_description": "ping",
 		"use": "generic-service",
 		"host_name": "*",
-		"check_command": "check_ping!200.0,20%!500.0,60%",
-		"servicegroups": ["core"]
+		"check_command": "check_ping!200.0,20%!500.0,60%"
 	}, {
 		"service_description": "ssh",
 		"use": "generic-service",
 		"host_name": "*",
-		"check_command": "check_ssh",
-		"servicegroups": ["core", "test"]
+		"check_command": "check_ssh"
+	}, {
+		"service_description": "Disk Space",
+		"use": "generic-service",
+		"host_name": "*",
+		"check_command": "check_nrpe_1arg!check_disk",
+		"servicegroups": ["nrpe"]
 	}]
 }

@@ -18,6 +18,11 @@ include_recipe "icinga::common"
 
 # Install the Icinga server package
 package "icinga" do
+  action  :upgrade
+end
+
+package "nagios-nrpe-plugin" do
+  options  "--no-install-recommends"
   action   :upgrade
 end
 
@@ -27,10 +32,12 @@ icinga_clients = search_helper_best_ip(node[:icinga][:client_search], [], false)
 end
 
 # Find all the service/host definitions 
+commands_db = data_bag_item('icinga', 'commands')
 contacts_db = data_bag_item('icinga', 'contacts')
 hosts_db = data_bag_item('icinga', 'hosts')
 services_db = data_bag_item('icinga', 'services')
 
+commands = commands_db['commands']
 contacts = contacts_db['contacts']
 hosts = hosts_db['hosts'] + icinga_clients
 services = services_db['services']
@@ -85,6 +92,10 @@ template "/etc/icinga/commands.cfg" do
   owner      "root"
   group      "root"
   mode       0644
+
+  variables(
+    :commands => commands
+  )
 
   notifies   :reload, "service[icinga]"
 end

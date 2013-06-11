@@ -838,7 +838,7 @@ retained_contact_service_attribute_mask=0
 # that each interval is one minute long (60 seconds).  Other settings
 # have not been tested much, so your mileage is likely to vary...
 
-interval_length=60
+interval_length=<%= node[:icinga][:server][:interval_length] %>
 
 
 

@@ -1,0 +1,27 @@
+---
+driver_plugin: vagrant
+
+platforms:
+- name: ubuntu-12.04
+  driver_config:
+    box: precise64
+    box_url: http://files.vagrantup.com/precise64.box
+    require_chef_omnibus: true
+    network:
+      - ["forwarded_port", {guest: 80, host: 8080}]
+  run_list:
+    - recipe[apt]
+    - recipe[minitest-handler]
+  attributes:
+    icinga:
+      server_hosts:
+        - 127.0.0.1
+
+suites:
+- name: server
+  run_list:
+    - recipe[icinga_test::server]
+
+- name: client
+  run_list: 
+    - recipe[icinga_test::client]

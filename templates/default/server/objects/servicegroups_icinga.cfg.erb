@@ -1,0 +1,6 @@
+<% @servicegroups.each do |servicegroup| %>
+define servicegroup {
+    servicegroup_name  <%= servicegroup %>
+    alias              <%= servicegroup %>
+}
+<% end %>

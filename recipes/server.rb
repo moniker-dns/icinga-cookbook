@@ -21,6 +21,24 @@ package "icinga" do
   action  :upgrade
 end
 
+execute "dpkg-statoverride-one" do
+  command   "dpkg-statoverride --update --add nagios www-data 2710 /var/lib/icinga/rw"
+  action    :run
+
+  not_if    "dpkg-statoverride --list /var/lib/icinga/rw"
+
+  notifies  :restart, "service[icinga]"
+end
+
+execute "dpkg-statoverride-two" do
+  command   "dpkg-statoverride --update --add nagios nagios 751 /var/lib/icinga"
+  action    :run
+
+  not_if    "dpkg-statoverride --list /var/lib/icinga"
+
+  notifies  :restart, "service[icinga]"
+end
+
 package "nagios-nrpe-plugin" do
   options  "--no-install-recommends"
   action   :upgrade

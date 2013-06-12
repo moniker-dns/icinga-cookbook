@@ -23,3 +23,19 @@ end
 package "nagios-plugins-extra" do
   action   :upgrade
 end
+
+directory "/usr/local/lib/nagios" do
+  action  :create
+end
+
+remote_directory "/usr/local/lib/nagios/plugins" do
+  action      :create
+  source      "plugins"
+  files_mode  0755
+end
+
+remote_directory "/etc/nagios-plugins/config" do
+  action      :create
+  source      "plugin-config"
+  files_mode  0644
+end

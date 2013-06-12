@@ -14,6 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
+include_recipe "apache2"
 include_recipe "icinga::common"
 
 # Install the Icinga server package

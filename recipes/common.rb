@@ -24,6 +24,10 @@ package "nagios-plugins-extra" do
   action   :upgrade
 end
 
+package "libnagios-plugin-perl" do
+  action   :upgrade
+end
+
 if node[:icinga][:install_percona_plugins]
   package "percona-nagios-plugins" do
     action  :upgrade

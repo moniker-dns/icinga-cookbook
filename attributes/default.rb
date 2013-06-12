@@ -18,4 +18,4 @@
 default[:icinga][:client_search] = "chef_environment:#{node.chef_environment}"
 default[:icinga][:server_search] = "role:icinga AND chef_environment:#{node.chef_environment}"
 default[:icinga][:server_hosts] = nil
-
+default[:icinga][:install_percona_plugins] = false

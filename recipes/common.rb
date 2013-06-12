@@ -24,6 +24,12 @@ package "nagios-plugins-extra" do
   action   :upgrade
 end
 
+if node[:icinga][:install_percona_plugins]
+  package "percona-nagios-plugins" do
+    action  :upgrade
+  end
+end
+
 directory "/usr/local/lib/nagios" do
   action  :create
 end
@@ -38,6 +44,11 @@ remote_directory "/etc/nagios-plugins/config" do
   action      :create
   source      "plugin-config"
   files_mode  0644
+
+  begin
+    notifies  :restart, "service[icinga]"
+  rescue
+  end
 end
 
 cookbook_file "/etc/sudoers.d/nagios_sudoers" do
@@ -45,4 +56,14 @@ cookbook_file "/etc/sudoers.d/nagios_sudoers" do
   owner   "root"
   group   "root"
   mode    0440
+
+  begin
+    notifies  :restart, "service[icinga]"
+  rescue
+  end
+
+  begin
+    notifies  :restart, "service[nagios-nrpe-server]"
+  rescue
+  end
 end

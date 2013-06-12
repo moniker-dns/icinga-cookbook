@@ -1,2 +1,3 @@
 nagios ALL=(ALL) NOPASSWD: /usr/lib/nagios/plugins/
-nagios ALL=(ALL) NOPASSWD: /usr/local/lib/nagios/plugins/ 
+nagios ALL=(ALL) NOPASSWD: /usr/local/lib/nagios/plugins/
+nagios ALL=(ALL) NOPASSWD: /usr/lib64/nagios/plugins/

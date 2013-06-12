@@ -253,6 +253,9 @@ template "/etc/icinga/objects/services_icinga.cfg" do
   notifies   :reload, "service[icinga]"
 end
 
+# Optional Addons
+include_recipe "icinga::pagerduty"
+
 # Define/Enable/Start the Icinga service 
 service "icinga" do
   supports    :restart => true, :status => true, :reload => true

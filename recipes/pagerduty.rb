@@ -1,14 +1,6 @@
 pagerduty_enabled = node[:icinga][:pagerduty][:service_key] != nil ? true : false
 
 # Installs PagerDuty Integration
-package "libwww-perl" do
-  action  pagerduty_enabled ? :upgrade : :nothing
-end
-
-package "libcrypt-ssleay-perl" do
-  action  pagerduty_enabled ? :upgrade : :nothing
-end
-
 if pagerduty_enabled
   template "/etc/icinga/objects/pagerduty_icinga.cfg" do
     source    "pagerduty/pagerduty_icinga.cfg.erb"

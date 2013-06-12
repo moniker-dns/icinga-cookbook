@@ -15,6 +15,23 @@
 # under the License.
 #
 
+# Install some common plugin dep
+package "libwww-perl" do
+  action  :upgrade
+end
+
+package "libcrypt-ssleay-perl" do
+  action  :upgrade
+end
+
+package "libjson-xs-perl" do
+  action  :upgrade
+end
+
+package "libjson-perl" do
+  action  :upgrade
+end
+
 # Install the Nagios plugin packages
 package "nagios-plugins" do
   action   :upgrade

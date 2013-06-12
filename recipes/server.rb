@@ -46,7 +46,21 @@ end
 
 # Find a listing of all the clients we are to monitor
 icinga_clients = search_helper_best_ip(node[:icinga][:client_search], [], false) do |ip, other_node|
-  raise "TODO.. Full me in!"
+  hostgroups = node[:roles] + [
+    "chef_environment:#{node.chef_environment}",
+
+    # TODO: These should not be hardcoded.. 3rd Parties may not have these attrs
+    "#{node[:continent]}#{node[:area]}#{node[:az]}",
+    "#{node[:area]}#{node[:az]}",
+    node[:area],
+    node[:az]
+  ]
+
+  {
+    "use"        => node[:icinga][:client][:host_use],
+    "host_name"  => node[:fqdn],
+    "hostgroups" => hostgroups
+  }
 end
 
 # Find all the service/host definitions 

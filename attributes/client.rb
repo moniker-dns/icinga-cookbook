@@ -16,3 +16,4 @@
 #
 # Client Configuration
 default[:icinga][:client][:dont_blame_nrpe] = 1
+default[:icinga][:client][:host_use] = "generic-host"

@@ -71,5 +71,11 @@
     "hostgroup": "webserver",
     "check_command": "check_ssl_cert!30!7",
     "servicegroups": ["nrpe"]
+  }, {
+    "service_description": "SSL Cert (with no hosts)",
+    "use": "generic-service",
+    "hostgroup": "non-existant",
+    "check_command": "check_ssl_cert!30!7",
+    "servicegroups": ["nrpe"]
   }]
 }

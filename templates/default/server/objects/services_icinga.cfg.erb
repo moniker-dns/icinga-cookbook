@@ -1,11 +1,15 @@
 <% @services.each do |service| %>
+<% if service.include?('hostgroup') and not @hostgroups.include?(service['hostgroup']) %>
+# Service "<%= service['service_description'] %>" skipped: Unknown hostgroup
+<% else %>
 define service {
-    <% service.sort.each do |key, value| %>
-        <% if value.kind_of?(Array) %>
-        <%= key.ljust(30) %> <%= value.join(',') %>
-        <% else %>
-        <%= key.ljust(30) %> <%= value %>
-        <% end %>
+  <% service.sort.each do |key, value| %>
+    <% if value.kind_of?(Array) %>
+    <%= key.ljust(30) %> <%= value.join(',') %>
+    <% else %>
+    <%= key.ljust(30) %> <%= value %>
     <% end %>
+  <% end %>
 }
+<% end %>
 <% end %>

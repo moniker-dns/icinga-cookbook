@@ -46,7 +46,7 @@ end
 
 # Find a listing of all the clients we are to monitor
 icinga_clients = search_helper_best_ip(node[:icinga][:client_search], [], false) do |ip, other_node|
-  hostgroups = node[:roles] + [
+  hostgroups = [
     "chef_environment:#{node.chef_environment}",
 
     # TODO: These should not be hardcoded.. 3rd Parties may not have these attrs
@@ -55,6 +55,10 @@ icinga_clients = search_helper_best_ip(node[:icinga][:client_search], [], false)
     node[:area],
     node[:az]
   ]
+
+  node[:roles].each do |role|
+    hostgroups << "chef_role:#{role}"
+  end
 
   {
     "use"        => node[:icinga][:client][:host_use],
@@ -247,7 +251,8 @@ template "/etc/icinga/objects/services_icinga.cfg" do
   mode       0644
 
   variables(
-    :services => services
+    :services   => services,
+    :hostgroups => hostgroups
   )
 
   notifies   :reload, "service[icinga]"

@@ -50,7 +50,7 @@ remote_directory "/etc/nagios-plugins/config" do
   files_mode  0644
 
   begin
-    notifies  :restart, "service[icinga]"
+    notifies  :restart, resources(:service => "icinga")
   rescue
   end
 end
@@ -62,12 +62,12 @@ cookbook_file "/etc/sudoers.d/nagios_sudoers" do
   mode    0440
 
   begin
-    notifies  :restart, "service[icinga]"
+    notifies  :restart, resources(:service => "icinga")
   rescue
   end
 
   begin
-    notifies  :restart, "service[nagios-nrpe-server]"
+    notifies  :restart, resources(:service => "nagios-nrpe-server")
   rescue
   end
 end

@@ -115,6 +115,15 @@ servicegroups.sort!
 Chef::Log.info("Discovered hostgroups: #{hostgroups.join(',')}")
 
 # Write out configuration templates
+template "/etc/icinga/apache2.conf" do
+  source     "server/apache2.conf.erb"
+  owner      "root"
+  group      "root"
+  mode       0644
+
+  notifies   :reload, "service[apache2]"
+end
+
 template "/etc/icinga/cgi.cfg" do
   source     "server/cgi.cfg.erb"
   owner      "root"

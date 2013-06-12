@@ -1,13 +1,14 @@
 define contact {
-       contact_name                             pagerduty
+       contact_name                             generic-pagerduty
        alias                                    PagerDuty Pseudo-Contact
        service_notification_period              24x7
        host_notification_period                 24x7
-       service_notification_options             w,u,c,r
+       service_notification_options             c,r
        host_notification_options                d,r
        service_notification_commands            notify-service-by-pagerduty
        host_notification_commands               notify-host-by-pagerduty
        pager                                    <%= node[:icinga][:pagerduty][:service_key] %>
+       register                                 0
 }
 
 define command {

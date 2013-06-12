@@ -146,6 +146,17 @@ template "/etc/icinga/commands.cfg" do
   notifies   :reload, "service[icinga]"
 end
 
+template "/etc/icinga/htpasswd.users" do
+  source  "server/htpasswd.users.erb"
+  owner   "root"
+  group   "www-data"
+  mode    0640
+  
+  variables(
+    :contacts => contacts
+  )
+end
+
 template "/etc/icinga/icinga.cfg" do
   source     "server/icinga.cfg.erb"
   owner      "root"

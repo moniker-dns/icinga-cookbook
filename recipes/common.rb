@@ -39,3 +39,10 @@ remote_directory "/etc/nagios-plugins/config" do
   source      "plugin-config"
   files_mode  0644
 end
+
+cookbook_file "/etc/sudoers.d/nagios_sudoers" do
+  source  "nagios_sudoers"
+  owner   "root"
+  group   "root"
+  mode    0440
+end

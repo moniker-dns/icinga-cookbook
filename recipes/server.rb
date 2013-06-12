@@ -45,25 +45,26 @@ package "nagios-nrpe-plugin" do
 end
 
 # Find a listing of all the clients we are to monitor
-icinga_clients = search_helper_best_ip(node[:icinga][:client_search], [], false) do |ip, other_node|
+icinga_clients = search_helper_best_ip(node[:icinga][:client_search], nil, false) do |ip, other_node|
   hostgroups = [
-    "chef_environment:#{node.chef_environment}",
+    "chef_environment:#{other_node.chef_environment}",
 
     # TODO: These should not be hardcoded.. 3rd Parties may not have these attrs
-    "#{node[:continent]}#{node[:area]}#{node[:az]}",
-    "#{node[:area]}#{node[:az]}",
-    node[:area],
-    node[:az]
+    "#{other_node[:continent]}#{other_node[:area]}#{other_node[:az]}",
+    "#{other_node[:area]}#{other_node[:az]}",
+    other_node[:area]
   ]
 
-  node[:roles].each do |role|
+  other_node[:roles].each do |role|
     hostgroups << "chef_role:#{role}"
   end
 
   {
-    "use"        => node[:icinga][:client][:host_use],
-    "host_name"  => node[:fqdn],
-    "hostgroups" => hostgroups
+    # "use"        => other_node[:icinga][:client][:host_use],
+    "use"        => "generic-host",
+    "host_name"  => other_node[:fqdn],
+    "hostgroups" => hostgroups,
+    "address"    => ip
   }
 end
 
@@ -254,6 +255,15 @@ template "/etc/icinga/objects/services_icinga.cfg" do
     :services   => services,
     :hostgroups => hostgroups
   )
+
+  notifies   :reload, "service[icinga]"
+end
+
+template "/etc/icinga/objects/timeperiods_icinga.cfg" do
+  source     "server/objects/timeperiods_icinga.cfg.erb"
+  owner      "root"
+  group      "root"
+  mode       0644
 
   notifies   :reload, "service[icinga]"
 end

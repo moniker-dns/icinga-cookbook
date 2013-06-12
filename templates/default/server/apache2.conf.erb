@@ -1,5 +1,14 @@
 # apache configuration for icinga
 
+<% if not node[:icinga][:server][:ssl_cert].nil? %>
+# apache configuration for icinga
+SSLEngine On
+SSLCertificateFile <%= node[:icinga][:server][:ssl_cert] %>
+SSLCertificateKeyFile <%= node[:icinga][:server][:ssl_key] %>
+<% end %>
+
+
+
 ScriptAlias /cgi-bin/icinga /usr/lib/cgi-bin/icinga
 ScriptAlias /icinga/cgi-bin /usr/lib/cgi-bin/icinga
 

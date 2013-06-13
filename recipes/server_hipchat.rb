@@ -25,6 +25,15 @@ cookbook_file "/usr/local/bin/hipchat_room_message.sh" do
   action    hipchat_enabled ? :create : :delete
 end
 
+cookbook_file "/usr/local/bin/hipchat_icinga.sh" do
+  source    "server/hipchat_icinga.sh"
+  owner     "root"
+  group     "root"
+  mode      0755
+
+  action    hipchat_enabled ? :create : :delete
+end
+
 package "curl" do
   action    hipchat_enabled ? :install : :nothing
 end

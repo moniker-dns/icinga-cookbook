@@ -1,26 +1,26 @@
 {
-	"id": "contacts",
+  "id": "contacts",
 
-	"contacts": [ {
-                "name": "generic-contact-template",
-                "service_notification_period": "24x7",
-                "host_notification_period": "24x7",
-                "service_notification_options": "w,u,c,r",
-                "host_notification_options": "d,r",
-                "service_notification_commands": "notify-service-by-email",
-                "host_notification_commands": "notify-host-by-email",
-                "contactgroups": ["admins"],
-                "register": "0"
-        }, {
-		"contact_name": "icingaadmin",
-		"alias": "icingaadmin",
-		"service_notification_period": "24x7",
-		"host_notification_period": "24x7",
-		"service_notification_options": "w,u,c,r",
-		"host_notification_options": "d,r",
-		"service_notification_commands": "notify-service-by-email",
-		"host_notification_commands": "notify-host-by-email",
-		"email": "root@localhost",
-		"contactgroups": ["admins"]
-	}]
+  "contacts": [{
+    "name": "generic-contact-template",
+    "service_notification_period": "24x7",
+    "host_notification_period": "24x7",
+    "service_notification_options": "w,u,c,r",
+    "host_notification_options": "d,r",
+    "service_notification_commands": "notify-service-by-email",
+    "host_notification_commands": "notify-host-by-email",
+    "contactgroups": ["admins"],
+    "register": "0"
+  }, {
+    "contact_name": "icingaadmin",
+    "alias": "icingaadmin",
+    "service_notification_period": "24x7",
+    "host_notification_period": "24x7",
+    "service_notification_options": "w,u,c,r",
+    "host_notification_options": "d,r",
+    "service_notification_commands": "notify-service-by-email",
+    "host_notification_commands": "notify-host-by-email",
+    "email": "root@localhost",
+    "contactgroups": ["admins"]
+  }]
 }

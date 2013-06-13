@@ -56,9 +56,15 @@ icinga_clients = search_helper_best_ip(node[:icinga][:client_search], nil, false
     other_node[:area]
   ]
 
-  other_node[:roles].each do |role|
-    hostgroups << "chef_role:#{role}"
+  if other_node.attribute?(:roles)
+    other_node[:roles].each do |role|
+      hostgroups << "chef_role:#{role}"
+    end
   end
+
+  # Peform some cleanup on the extracted information
+  hostgroups.delete('')
+  hostgroups.compact!
 
   {
     # "use"        => other_node[:icinga][:client][:host_use],
@@ -69,7 +75,12 @@ icinga_clients = search_helper_best_ip(node[:icinga][:client_search], nil, false
   }
 end
 
-# Find all the service/host definitions 
+# remove any clients with incomplete data
+icinga_clients.reject! do |client|
+  client['host_name'].nil? || client['host_name'].empty? || client['address'].nil? || client['address'].empty?
+end
+
+# Find all the service/host definitions
 commands_db = data_bag_item('icinga', 'commands')
 contacts_db = data_bag_item('icinga', 'contacts')
 hosts_db = data_bag_item('icinga', 'hosts')
@@ -88,8 +99,11 @@ servicegroups = []
 
 # Extract some useful information from the contacts for ease of use later
 contacts.each do |contact|
-  contactpasswords[contact['contact_name']] = lookup_password('icinga', contact['contact_name'], nil)
-  contactgroups += contact.fetch('contactgroups', [])
+  # skip over template contacts that don't have a contact_name
+  if contact.has_key?('contact_name')
+    contactpasswords[contact['contact_name']] = lookup_password('icinga', contact['contact_name'], '*locked*')
+    contactgroups += contact.fetch('contactgroups', [])
+  end
 end
 
 # Peform some cleanup on the extracted information
@@ -102,6 +116,8 @@ hosts.each do |host|
 end
 
 # Peform some cleanup on the extracted information
+hostgroups.delete('')
+hostgroups.compact!
 hostgroups.uniq!
 hostgroups.sort!
 
@@ -154,7 +170,7 @@ template "/etc/icinga/htpasswd.users" do
   owner   "root"
   group   "www-data"
   mode    0640
-  
+
   variables(
     :contacts         => contacts,
     :contactpasswords => contactpasswords
@@ -295,7 +311,7 @@ end
 # Optional Addons
 include_recipe "icinga::pagerduty"
 
-# Define/Enable/Start the Icinga service 
+# Define/Enable/Start the Icinga service
 service "icinga" do
   supports    :restart => true, :status => true, :reload => true
   action      [:enable, :start]

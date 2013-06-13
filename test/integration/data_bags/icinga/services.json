@@ -38,7 +38,7 @@
   }, {
     "service_description": "Disk Space",
     "use": "generic-service",
-    "hostgroup": "*",
+    "host_name": "*",
     "check_command": "check_nrpe!check_disk!15% 10%",
     "servicegroups": ["nrpe"]
   }]

@@ -1,0 +1,22 @@
+define contact {
+      name                                     generic-hipchat-contact
+      alias                                    HipChat Pseudo-Contact
+      service_notification_period              24x7
+      host_notification_period                 24x7
+      service_notification_options             w,u,c,r
+      host_notification_options                d,r
+      service_notification_commands            notify-service-by-hipchat
+      host_notification_commands               notify-host-by-hipchat
+      pager                                    -c red
+      register                                 0
+}
+
+define command {
+       command_name     notify-service-by-hipchat
+       command_line     /usr/bin/printf "%b" "Notification Type: $NOTIFICATIONTYPE$<br><br>Service: $SERVICEDESC$<br>Host: $HOSTALIAS$<br>Address: $HOSTADDRESS$<br>State: $SERVICESTATE$<br>Info: $SERVICEOUTPUT$<br><br>Date/Time: $LONGDATETIME$" | /usr/local/bin/hipchat_room_message.sh -t <%= node[:icinga][:server][:hipchat_api_token] %> -r "$CONTACTEMAIL$" $CONTACTPAGER$ -f "Icinga"
+}
+
+define command {
+       command_name     notify-host-by-hipchat
+       command_line     /usr/bin/printf "%b" "Notification Type: $NOTIFICATIONTYPE$<br><br>Host: $HOSTNAME$<br>State: $HOSTSTATE$<br>Address: $HOSTADDRESS$<br>Info: $HOSTOUTPUT$<br><br>Date/Time: $LONGDATETIME$" | /usr/local/bin/hipchat_room_message.sh -t <%= node[:icinga][:server][:hipchat_api_token] %> -r "$CONTACTEMAIL$" $CONTACTPAGER$ -f "Icinga"
+}

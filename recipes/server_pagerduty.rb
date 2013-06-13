@@ -17,7 +17,7 @@ else
 end
 
 cookbook_file "/usr/local/bin/pagerduty_icinga.pl" do
-  source    " /pagerduty_icinga.pl"
+  source    "server/pagerduty_icinga.pl"
   owner     "root"
   group     "root"
   mode      0755

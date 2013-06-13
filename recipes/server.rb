@@ -310,6 +310,7 @@ end
 
 # Optional Addons
 include_recipe "icinga::server_pagerduty"
+include_recipe "icinga::server_hipchat"
 
 # Define/Enable/Start the Icinga service
 service "icinga" do

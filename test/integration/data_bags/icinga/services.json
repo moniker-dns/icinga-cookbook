@@ -38,44 +38,8 @@
   }, {
     "service_description": "Disk Space",
     "use": "generic-service",
-    "host_name": "*",
+    "hostgroup": "*",
     "check_command": "check_nrpe!check_disk!15% 10%",
-    "servicegroups": ["nrpe"]
-  }, {
-    "service_description": "Load Average",
-    "use": "generic-service",
-    "host_name": "*",
-    "check_command": "check_nrpe!check_load!2,1.5,1.1 2.0,2.0,2.0",
-    "servicegroups": ["nrpe"]
-  }, {
-    "service_description": "Mail Queue",
-    "use": "generic-service",
-    "host_name": "*",
-    "check_command": "check_nrpe!check_mailq!100 200",
-    "servicegroups": ["nrpe"]
-  }, {
-    "service_description": "DNS",
-    "use": "generic-service",
-    "host_name": "*",
-    "check_command": "check_nrpe!check_dns!1 2 hp.com",
-    "servicegroups": ["nrpe"]
-  }, {
-    "service_description": "NTP Offset",
-    "use": "generic-service",
-    "host_name": "*",
-    "check_command": "check_nrpe!check_ntp_time!0.5 2 pool.ntp.org",
-    "servicegroups": ["nrpe"]
-  }, {
-    "service_description": "SSL Cert",
-    "use": "generic-service",
-    "hostgroup": "webserver",
-    "check_command": "check_ssl_cert!30!7",
-    "servicegroups": ["nrpe"]
-  }, {
-    "service_description": "SSL Cert (with no hosts)",
-    "use": "generic-service",
-    "hostgroup": "non-existant",
-    "check_command": "check_ssl_cert!30!7",
     "servicegroups": ["nrpe"]
   }]
 }

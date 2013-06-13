@@ -1,21 +1,9 @@
 {
-    "id": "nrpe_commands",
+  "id": "nrpe_commands",
 
-    "nrpe_commands": [{
-        "command_name": "check_disk",
-        "command_line": "/usr/lib/nagios/plugins/check_disk -w $ARG1$ -c $ARG2$ -A -i '^/run'"
-    }, {
-        "command_name": "check_load",
-        "command_line": "/usr/lib/nagios/plugins/check_load -w $ARG1$ -c $ARG2$ -r"
-    }, {
-        "command_name": "check_mailq",
-        "command_line": "/usr/lib/nagios/plugins/check_mailq -w $ARG1$ -c $ARG2$"
-    }, {
-        "command_name": "check_dns",
-        "command_line": "/usr/lib/nagios/plugins/check_dns -w $ARG1$ -c $ARG2$ -H $ARG3$"
-    }, {
-        "command_name": "check_ntp_time",
-        "command_line": "/usr/lib/nagios/plugins/check_ntp_time -w $ARG1$ -c $ARG2$ -H $ARG3$"
-    }]
+  "nrpe_commands": [{
+    "command_name": "check_disk",
+    "command_line": "/usr/lib/nagios/plugins/check_disk -w $ARG1$ -c $ARG2$ -A -i '^/run'"
+  }]
 }
 

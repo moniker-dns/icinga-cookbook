@@ -1,7 +1,6 @@
 <% @contacts.each do |contact| %>
 define contact {
     <% contact.sort.each do |key, value| %>
-        <% next if key == 'password' %>
         <% if value.kind_of?(Array) %>
         <%= key.ljust(30) %> <%= value.join(',') %>
         <% else %>

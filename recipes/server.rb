@@ -81,12 +81,14 @@ hosts = hosts_db['hosts'] + icinga_clients
 services = services_db['services']
 
 # Prepare some variables to build on
+contactpasswords = {}
 contactgroups = []
 hostgroups = []
 servicegroups = []
 
 # Extract some useful information from the contacts for ease of use later
 contacts.each do |contact|
+  contactpasswords[contact['contact_name']] = lookup_password('icinga', contact['contact_name'], nil)
   contactgroups += contact.fetch('contactgroups', [])
 end
 
@@ -154,7 +156,8 @@ template "/etc/icinga/htpasswd.users" do
   mode    0640
   
   variables(
-    :contacts => contacts
+    :contacts         => contacts,
+    :contactpasswords => contactpasswords
   )
 end
 

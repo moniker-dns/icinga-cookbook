@@ -309,7 +309,7 @@ template "/etc/icinga/objects/timeperiods_icinga.cfg" do
 end
 
 # Optional Addons
-include_recipe "icinga::pagerduty"
+include_recipe "icinga::server_pagerduty"
 
 # Define/Enable/Start the Icinga service
 service "icinga" do

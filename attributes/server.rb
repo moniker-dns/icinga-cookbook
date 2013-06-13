@@ -17,3 +17,4 @@
 # Server Configuration
 default[:icinga][:server][:interval_length] = 30
 default[:icinga][:server][:check_external_commands] = 1
+default[:icinga][:server][:pagerduty_service_key] = nil

@@ -1,9 +1,9 @@
-pagerduty_enabled = node[:icinga][:pagerduty][:service_key] != nil ? true : false
+pagerduty_enabled = node[:icinga][:server][:pagerduty_service_key] != nil ? true : false
 
 # Installs PagerDuty Integration
 if pagerduty_enabled
   template "/etc/icinga/objects/pagerduty_icinga.cfg" do
-    source    "pagerduty/pagerduty_icinga.cfg.erb"
+    source    "server/objects/pagerduty_icinga.cfg.erb"
     owner     "root"
     group     "root"
     mode      0644
@@ -17,7 +17,7 @@ else
 end
 
 cookbook_file "/usr/local/bin/pagerduty_icinga.pl" do
-  source    "pagerduty/pagerduty_icinga.pl"
+  source    " /pagerduty_icinga.pl"
   owner     "root"
   group     "root"
   mode      0755

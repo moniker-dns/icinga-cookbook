@@ -24,3 +24,7 @@ cookbook_file "/usr/local/bin/hipchat_room_message.sh" do
 
   action    hipchat_enabled ? :create : :delete
 end
+
+package "curl" do
+  action    hipchat_enabled ? :install : :nothing
+end

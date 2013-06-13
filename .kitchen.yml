@@ -19,11 +19,15 @@ platforms:
         - 10.0.2.15
 
 suites:
-- name: server
+- name: default
   run_list:
     - recipe[icinga_test::server]
     - recipe[icinga_test::client]
 
+- name: server
+  run_list:
+    - recipe[icinga_test::server]
+
 - name: client
-  run_list: 
+  run_list:
     - recipe[icinga_test::client]

@@ -12,10 +12,10 @@ define contact {
 
 define command {
        command_name     notify-service-by-hipchat
-       command_line     /usr/bin/printf "%b" "Notification Type: $NOTIFICATIONTYPE$<br><br>Service: $SERVICEDESC$<br>Host: $HOSTALIAS$<br>Address: $HOSTADDRESS$<br>State: $SERVICESTATE$<br>Info: $SERVICEOUTPUT$<br><br>Date/Time: $LONGDATETIME$" | /usr/local/bin/hipchat_icinga.sh $SERVICESTATE$ -t <%= node[:icinga][:server][:hipchat_api_token] %> -r "$CONTACTEMAIL$" -f "$CONTACTNAME$" $CONTACTPAGER$
+       command_line     /usr/bin/printf "%b" "Notification Type: $NOTIFICATIONTYPE$<br><br>Service: $SERVICEDESC$<br>Host: $HOSTALIAS$<br>Address: $HOSTADDRESS$<br>State: $SERVICESTATE$<br>Info: $SERVICEOUTPUT$<br><br>Date/Time: $LONGDATETIME$" | /usr/local/bin/hipchat_icinga.sh $NOTIFICATIONTYPE$ $SERVICESTATE$ -t <%= node[:icinga][:server][:hipchat_api_token] %> -r "$CONTACTEMAIL$" -f "$CONTACTNAME$" $CONTACTPAGER$
 }
 
 define command {
        command_name     notify-host-by-hipchat
-       command_line     /usr/bin/printf "%b" "Notification Type: $NOTIFICATIONTYPE$<br><br>Host: $HOSTNAME$<br>State: $HOSTSTATE$<br>Address: $HOSTADDRESS$<br>Info: $HOSTOUTPUT$<br><br>Date/Time: $LONGDATETIME$" | /usr/local/bin/hipchat_icinga.sh $HOSTSTATE$ -t <%= node[:icinga][:server][:hipchat_api_token] %> -r "$CONTACTEMAIL$" -f "$CONTACTNAME$" $CONTACTPAGER$
+       command_line     /usr/bin/printf "%b" "Notification Type: $NOTIFICATIONTYPE$<br><br>Host: $HOSTNAME$<br>State: $HOSTSTATE$<br>Address: $HOSTADDRESS$<br>Info: $HOSTOUTPUT$<br><br>Date/Time: $LONGDATETIME$" | /usr/local/bin/hipchat_icinga.sh $NOTIFICATIONTYPE$ $HOSTSTATE$ -t <%= node[:icinga][:server][:hipchat_api_token] %> -r "$CONTACTEMAIL$" -f "$CONTACTNAME$" $CONTACTPAGER$
 }

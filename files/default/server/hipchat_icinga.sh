@@ -5,7 +5,7 @@ set -e
 
 SCRIPT=`dirname "$0"`/hipchat_room_message.sh
 
-case "$1" in
+case "$2" in
  "OK") COLOR="green" ;;
  "WARNING") COLOR="yellow" ;;
  "UNKNOWN") COLOR="purple" ;;
@@ -18,4 +18,4 @@ case "$1" in
  *) COLOR="red" ;;
 esac
 
-$SCRIPT -c $COLOR ${*:2}
+$SCRIPT -c $COLOR "${@:3}"

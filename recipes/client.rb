@@ -23,10 +23,20 @@ end
 
 # Lookup the Icinga servers via search (or the configured hosts if set)
 icinga_servers = search_helper_best_ip(node[:icinga][:server_search], node[:icinga][:server_hosts]) do |ip, other_node|
+  Chef::Log.info "found icinga server #{other_node}, ip = #{ip}"
   ip
 end
 
-# Find all the service/host definitions 
+# pre-provisioned nodes in chef are searchable, but contain little or no data
+# delete them from the search results & use 127.0.0.1 as a fall back ip
+icinga_servers.delete('')
+icinga_servers.delete(nil)
+if icinga_servers.empty? || icinga_servers.nil?
+  Chef::Log.info "icinga_servers is empty, defaulting to 127.0.0.1 for the nrped allowed hosts"
+  icinga_servers = ['127.0.0.1']
+end
+
+# Find all the service/host definitions
 nrpe_commands_db = data_bag_item('icinga', 'nrpe_commands')
 
 nrpe_commands = nrpe_commands_db['nrpe_commands']
@@ -51,7 +61,7 @@ file "/etc/nagios/nrpe_local.cfg" do
 end
 
 
-# Define/Enable/Start the NRPE service 
+# Define/Enable/Start the NRPE service
 service "nagios-nrpe-server" do
   supports    :restart => true, :status => false, :reload => false
   action      [:enable, :start]

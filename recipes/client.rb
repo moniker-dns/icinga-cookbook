@@ -22,7 +22,7 @@ package "nagios-nrpe-server" do
 end
 
 # Lookup the Icinga servers via search (or the configured hosts if set)
-icinga_servers = search_helper_best_ip(node[:icinga][:server_search], node[:icinga][:server_hosts]) do |ip, other_node|
+icinga_servers = search_helper_best_ip(node[:icinga][:server_search], node[:icinga][:server_hosts], false) do |ip, other_node|
   Chef::Log.info "found icinga server #{other_node}, ip = #{ip}"
   ip
 end

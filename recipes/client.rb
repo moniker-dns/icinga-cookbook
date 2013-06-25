@@ -63,6 +63,6 @@ end
 
 # Define/Enable/Start the NRPE service
 service "nagios-nrpe-server" do
-  supports    :restart => true, :status => false, :reload => true
+  supports    :restart => true, :status => true, :reload => true
   action      [:enable, :start]
 end

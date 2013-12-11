@@ -30,7 +30,7 @@ s.close()
 
 if data != 'PONG':
     print('CRITICAL: Ping error, didn\' receive PONG!')
-    sys.exit(0)
+    sys.exit(2)
 else:
     print("OK: Socket is responding with PONG")
-    sys.exit(2)
+    sys.exit(0)
